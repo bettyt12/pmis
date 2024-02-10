@@ -32,7 +32,7 @@ class PatientController {
     try {
       const data = req.body; // Assuming request body contains patient data
       const cardNumber = await PatientService.createPatient(data);
-      res.status(201).json({ cardNumber });
+      res.status(200).json({cardNumber, meesage: "Patient Created Successfully" });
     } catch (error) {
       console.error(`Error in createPatient: ${error}`);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -52,10 +52,12 @@ class PatientController {
   }
 
   static async deletePatient(req: Request, res: Response): Promise<void> {
+    console.log(req.params);
+    
     try {
       const cardNumber = parseInt(req.params.cardNumber);
       await PatientService.deletePatient(cardNumber);
-      res.status(204).end();
+      res.status(200).json({ message: 'Patient updated successfully' });
     } catch (error) {
       console.error(`Error in deletePatient: ${error}`);
       res.status(500).json({ error: 'Internal Server Error' });
