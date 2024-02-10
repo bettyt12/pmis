@@ -4,19 +4,12 @@ import database, { RowDataPacket } from '../db/db';
 
 interface PatientData {
   cardNumber: number;
-  firstName: string;
-  lastName: string;
-  middleName: string;
+  name: string;
   sex: string;
   age: number;
-  woreda: string;
-  keble: number;
+  address: string;
   phoneNumber: string;
   date: Date;
-  spot: string;
-  cardType: string;
-  admitted: boolean;
-  physician: number;
 }
 
 class Patient {
@@ -24,20 +17,13 @@ class Patient {
     const query = 'SELECT * FROM patient';
     const [rows] = await database.query(query) as RowDataPacket[];
     return rows.map((row: RowDataPacket) => ({
-      cardNumber: row.cardNumber,
-      firstName: row.firstName,
-      lastName: row.lastName,
-      middleName: row.middleName,
+			cardNumber: row.cardNumber,
+      name: row.name,
       sex: row.sex,
       age: row.age,
-      woreda: row.woreda,
-      keble: row.keble,
+      address: row.address,
       phoneNumber: row.phoneNumber,
       date: row.date,
-      spot: row.spot,
-      cardType: row.cardType,
-      admitted: row.admitted,
-      physician: row.physician,
     }));
   }
   static async getAllPatients1(): Promise<PatientData[]> {
@@ -72,19 +58,12 @@ class Patient {
   private static rowToPatient(row: RowDataPacket): PatientData {
     return {
       cardNumber: row.cardNumber,
-      firstName: row.firstName,
-      lastName: row.lastName,
-      middleName: row.middleName,
+      name: row.name,
       sex: row.sex,
       age: row.age,
-      woreda: row.woreda,
-      keble: row.keble,
+      address: row.adress,
       phoneNumber: row.phoneNumber,
       date: row.date,
-      spot: row.spot,
-      cardType: row.cardType,
-      admitted: row.admitted,
-      physician: row.physician,
     };
   }
   // Add more methods for CRUD operations if needed
