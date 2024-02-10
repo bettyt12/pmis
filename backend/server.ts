@@ -1,13 +1,15 @@
-// app.ts
+// server.ts
 import fs from 'fs';
 import path from 'path';
 import express, { Application, Request, Response } from 'express';
 import patientRoutes from './routes/PatientRoutes';
 import mysql from 'mysql2';
+import userRoutes from './routes/UserRoute';
 
 const app: Application = express();
 const port = 5000;
-
+const cors = require('cors');
+const cookieParser = require("cookie-parser");
 // Create a MySQL connection pool
 const db = mysql.createPool({
   host: 'localhost',
@@ -43,20 +45,20 @@ db.getConnection((err, connection) => {
   }
 });
 
+app.use(cors());
+app.use(cookieParser());
 // Use the database connection in your routes
-app.use((req, res, next) => {
-  req.body = db;
-  next();
-});
 // app.use((req, res, next) => {
-//   req.db = db;
+//   req.body = db;
 //   next();
 // });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Define your routes
-app.use('/api', patientRoutes);
+app.use('/api/patient', patientRoutes);
+app.use('/api/user', userRoutes);
 
 // Default route
 app.get('/', (req: Request, res: Response) => {
