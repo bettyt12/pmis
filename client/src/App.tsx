@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import {
+  SIGN_IN_ROUTE,
+  SIGN_UP_ROUTE,
+} from "./constants";
+import ToastProvider from "./components/Toast/ToastProvider";
+import ToastShelf from "./components/Toast/ToastShelf";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/Signup";
+import Home from "./pages/Home";
+import DashBoard from "./pages/DashBoard";
+// import ProtectedRoute from './ProtectedRoute';
+
+export interface IAlert {
+  msg: string;
+  type: string;
+  show: boolean;
 }
+
+const App = () => {
+  return (
+    <ToastProvider>
+      <ToastShelf />
+      {/* <AdminManagerProvider> */}
+        <div>
+          <Router>
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path={SIGN_IN_ROUTE} element={<SignIn />} />
+              <Route path={SIGN_UP_ROUTE} element={<SignUp />} />
+              <Route path={"/dashboard/*"} element={<DashBoard />} />
+            
+            </Routes>
+          </Router>
+        </div>
+      {/* </AdminManagerProvider> */}
+    </ToastProvider>
+  ); 
+};
 
 export default App;
